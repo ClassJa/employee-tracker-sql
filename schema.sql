@@ -5,14 +5,14 @@ CREATE DATABASE departments_db;
 
 CREATE TABLE department_agg (
     id SERIAL PRIMARY KEY,
-    name VARCHAR(30)
+    name VARCHAR(30) NOT NULL
 );
 
 CREATE TABLE role_agg (
     id SERIAL PRIMARY KEY, 
-    title VARCHAR(30),
-    salary DECIMAL,
-    department INTEGER,
+    title VARCHAR(30) NOT NULL,
+    salary DECIMAL NOT NULL,
+    department INTEGER NOT NULL,
     FOREIGN KEY (department)
     REFERENCES department_agg(id)
     ON DELETE SET NULL
@@ -20,10 +20,11 @@ CREATE TABLE role_agg (
 
 CREATE TABLE employee_agg(
     id SERIAL PRIMARY KEY,
-    first_name VARCHAR(30),
-    last_name VARCHAR(30),
-    role_id INTEGER,
-    manager_id INTEGER,
+    first_name VARCHAR(30) NOT NULL,
+    last_name VARCHAR(30) NOT NULL,
+    role_id INTEGER NOT NULL,
+    manager_id INTEGER SET DEFAULT null,
+    -- Is this correct?
     FOREIGN KEY (role_id)
     REFERENCES role_agg(id)
     ON DELETE SET NULL,
