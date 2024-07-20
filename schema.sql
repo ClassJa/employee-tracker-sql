@@ -23,7 +23,7 @@ CREATE TABLE employee_agg(
     first_name VARCHAR(30) NOT NULL,
     last_name VARCHAR(30) NOT NULL,
     role_id INTEGER NOT NULL,
-    manager_id INTEGER SET DEFAULT null,
+    manager_id INTEGER DEFAULT NULL,
     -- Is this correct?
     FOREIGN KEY (role_id)
     REFERENCES role_agg(id)
