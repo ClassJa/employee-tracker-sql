@@ -27,7 +27,7 @@ CREATE TABLE employee_agg(
     FOREIGN KEY (role_id)
     REFERENCES role_agg(id)
     ON DELETE SET NULL,
-    FOREIGN KEY manager_id
+    FOREIGN KEY (manager_id)
     REFERENCES employee_agg(id)
     ON DELETE SET NULL
 );

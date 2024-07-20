@@ -20,6 +20,7 @@ init(questions)
 function displayDepartments() {
     if(questions[0].choices === "View All Departments") {
         
+
     }
 
 }
