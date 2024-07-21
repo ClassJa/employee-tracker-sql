@@ -18,7 +18,7 @@ CREATE TABLE role_agg (
     ON DELETE SET NULL
 );
 
-CREATE TABLE employee_agg(
+CREATE TABLE employee_agg (
     id SERIAL PRIMARY KEY,
     first_name VARCHAR(30) NOT NULL,
     last_name VARCHAR(30) NOT NULL,

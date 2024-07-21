@@ -1,21 +1,27 @@
-INSERT INTO department_agg (id, name)
-VALUES 
-('Engineering');
-('Finance');
-('Legal');
+INSERT INTO department_agg (name)
+VALUES ('Engineering'),
+('Finance'),
+('Legal'),
 ('Sales');
 
 INSERT INTO role_agg (id, title, salary, department)
 VALUES
-('Sales Lead', 100000, 'Sales');
-('Salesperson', 80000, 'Sales');
-('Lead Engineer', 150000, 'Engineering');
-('Software Engineer', 120000, 'Engineering');
-('Account Manager', 160000, 'Finance');
-('Accountant', 125000, 'Finance');
-('Legal Team Lead', 250000, 'Legal');
-('Lawyer', 190000, 'Legal');
+(1, 'Sales Lead', 100000, 4),
+(2, 'Salesperson', 80000, 4),
+(3, 'Lead Engineer', 150000, 1),
+(4, 'Software Engineer', 120000, 1),
+(5, 'Account Manager', 160000, 2),
+(6, 'Accountant', 125000, 2),
+(7, 'Legal Team Lead', 250000, 3),
+(8, 'Lawyer', 190000, 3);
 
-INSERT INTO employee_agg (id, first_name, last_name, role_id, manager_id)
+INSERT INTO employee_agg (first_name, last_name, role_id)
 VALUES 
-('John', 'Doe', ??, ??)
+('John', 'Doe', 1),
+('Mike', 'Chan', 2),
+('Ashley', 'Rodriguez', 3),
+('Kevin', 'Tupik', 4),
+('Kunal', 'Singh', 5),
+('Malia', 'Brown', 6),
+('Sarah', 'Lourd', 7),
+('Tom', 'Allen', 8);
