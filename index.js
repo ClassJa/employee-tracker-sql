@@ -36,7 +36,14 @@ function init(questions){
 init(questions)
 
 function displayDepartments() {
+    const tableName = 'department_agg'
     if(questions[0].choices === "View All Departments") {
+        pool.query(`SELECT * FROM ${tableName}`, (err, {rows}) => {
+            if (err) {
+                console.error(err)
+            }
+            console.log({rows})
+        })
         // Select * FROM department_agg
         // figure out how to get the table to be displayed
     }
