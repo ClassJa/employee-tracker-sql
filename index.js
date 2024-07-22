@@ -1,5 +1,23 @@
 const inquirer = require('inquirer')
-const pg = require("postgres")
+// const pg = require("postgres")
+const { Pool } = require('pg') 
+// const tables = require('')
+
+
+const pool = new Pool(
+    {
+        user: '',
+        password: '',
+        host: 'localhost',
+        database: 'departments_db'
+    },
+    console.log("Connected to the departments_db database: ")
+    // , pool.database
+)
+// why won't this work?
+
+
+pool.connect()
 
 const questions = [
         {
@@ -19,8 +37,8 @@ init(questions)
 
 function displayDepartments() {
     if(questions[0].choices === "View All Departments") {
-        
-
+        // Select * FROM department_agg
+        // figure out how to get the table to be displayed
     }
 
 }
