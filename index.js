@@ -39,7 +39,7 @@ function init(){
         displayDepartments(response)
         displayRoles(response)
         displayEmployees(response)
-        // addDepartment()
+        addDepartment(response)
         // addRole()
         // addEmployee()
         // quitProgram()
@@ -94,12 +94,11 @@ function addDepartment(arg1){
             {
             message: "What is the name of the department you want to add?",
             name: "addedDepartment",
-            type: "input"
+            type: "input",
         }
     ]).then(
-
         // Debug why the prompt is being invoked
-        pool.query(`INSERT INTO ${tableName} (name) VALUES (${response})`, (err, row) => {
+        pool.query(`INSERT INTO ${tableName} (name) VALUES (${input})`, (err, row) => {
             if(err){
                 console.error(err)
             } else {
