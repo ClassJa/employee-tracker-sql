@@ -72,7 +72,6 @@ function init(){
 
 function displayDepartments(arg1) {
     const tableName = 'department_agg'
-    // if(arg1.selection1 === DisplayDepartments) {
         pool.query(`SELECT * FROM ${tableName}`, (err, {rows}) => {
             if (err) {
                 console.error(err)
@@ -81,7 +80,7 @@ function displayDepartments(arg1) {
             init()
         })
     }
-// }
+
 
 function displayRoles(arg1) {
     const tableName = 'role_agg'
@@ -181,8 +180,8 @@ function addNewEmployee(){
         }
     ]
     inquirer.prompt(question)
-    .then(({addedEmployee}) => {
-        pool.query(`INSERT INTO ${tableName} (first_name, last_name, role_id) VALUES ('${addedEmployee.firstName}, ${addedEmployee.lastName}, ${addedEmployee.roleId}')`)
+    .then(({firstName, lastName, roleId}) => {
+        pool.query(`INSERT INTO ${tableName} (first_name, last_name, role_id) VALUES ($1, $2, $3)`, [firstName, lastName, roleId])
     })
     .then(() => {
         console.log("Employee Added!")
@@ -190,10 +189,8 @@ function addNewEmployee(){
     })
     }
 
-// Debug this
-function exitProgram(arg1) {
+function exitProgram() {
     process.exit(0)
-    
 }
 
 init()
