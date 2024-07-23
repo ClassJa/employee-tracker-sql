@@ -24,28 +24,41 @@ const questions = [
             message: "What would you like to do?",
             type: "list",
             name: "selection1",
-            choices: ["View All Departments", "View All Roles", "View All Employees", "Add Department", "Add Role", "Add Employee"]
+            choices: ["View All Departments", "View All Roles", "View All Employees", "Add Department", "Add Role", "Add Employee", "Quit"]
         }
     ]
+// have the quit be the default base case of the switch statements 
 
+function init(){
+    // asks main prompts continuously
+    inquirer.prompt(questions).then((response) => {
+        // add switch statement, running specififc functions on user input 
+        displayDepartments(response)
+console.log(response)
+    })
 
-function init(questions){
-    inquirer.prompt(questions)
 }
 
-init(questions)
+init()
 
-function displayDepartments() {
+function displayDepartments(arg1) {
     const tableName = 'department_agg'
-    if(questions[0].choices === "View All Departments") {
+    if(arg1.selection1 === "View All Departments") {
         pool.query(`SELECT * FROM ${tableName}`, (err, {rows}) => {
+            console.log(rows)
             if (err) {
                 console.error(err)
             }
-            console.log({rows})
+            console.table(rows)
+            init()
         })
         // Select * FROM department_agg
         // figure out how to get the table to be displayed
     }
 
+}
+
+function displayRoles(arg1) {
+    const tableName = 'role_agg'
+    if(arg1.selection1 === "View All Roles")
 }
