@@ -98,13 +98,13 @@ function addDepartment(arg1){
         }
     ]).then(
         // Debug why the prompt is being invoked
-        pool.query(`INSERT INTO ${tableName} (name) VALUES (${input})`, (err, row) => {
+        pool.query(`INSERT INTO ${tableName} (name) VALUES ('${arg1.addedDepartment}')`, (err, {rows}) => {
             if(err){
                 console.error(err)
             } else {
-                console.log("Department added!")
+                console.log(arg1.addedDepartment)
+                console.log("Department added!", rows)
             }
-            
         }))
     }
 }
