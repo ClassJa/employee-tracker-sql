@@ -1,7 +1,9 @@
 const inquirer = require('inquirer')
 // const pg = require("postgres")
 const { Pool } = require('pg') 
+const { exit } = require('process')
 // const tables = require('')
+
 
 
 const pool = new Pool(
@@ -24,7 +26,7 @@ const questions = [
             message: "What would you like to do?",
             type: "list",
             name: "selection1",
-            choices: ["View All Departments", "View All Roles", "View All Employees", "Add Department", "Add Role", "Add Employee", "Quit"]
+            choices: ["View All Departments", "View All Roles", "View All Employees", "Add Department", "Add Role", "Add Employee", "Exit Program"]
         }
     ]
 // have the quit be the default base case of the switch statements 
@@ -36,12 +38,14 @@ function init(){
         displayDepartments(response)
         displayRoles(response)
         displayEmployees(response)
+        addDepartment()
+        addRole()
+        addEmployee()
+        quitProgram()
         console.log(response)
     })
-
 }
 
-init()
 
 function displayDepartments(arg1) {
     const tableName = 'department_agg'
@@ -53,10 +57,7 @@ function displayDepartments(arg1) {
             console.table(rows)
             init()
         })
-        // Select * FROM department_agg
-        // figure out how to get the table to be displayed
     }
-
 }
 
 function displayRoles(arg1) {
@@ -83,5 +84,41 @@ function displayEmployees(arg1) {
             init()
         })
     }
-
 }
+
+function addDepartment(arg1){
+    const tableName = 'department_agg'
+    if(arg1.selection1 === "Add Department") {
+        pool.query(`INSERT INTO ${tableName}`, (err) => {
+
+        })
+    }
+}
+
+
+function addRole(arg1){
+    const tableName = 'role_agg'
+    if(arg1.selection1 === "Add Role") {
+        pool.query(`INSERT INTO ${tableName}`, (err) => {
+
+        })
+    }
+}
+
+function addEmployee(arg1){
+    const tableName = 'employee_agg' 
+    if(arg1.selection1 === "Add Employee") {
+        pool.query(`INSERT INTO ${tableName}`, (err) => {
+
+        })
+    }
+}
+
+function quitProgram(arg1) {
+    if(arg1.selection1 === "Exit Program") {
+        exit(0)
+        // process.exit("Program Exited", 0)
+    }
+}
+
+init()
