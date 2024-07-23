@@ -36,15 +36,14 @@ const questions = [
             message: "What would you like to do?",
             type: "list",
             name: "selection1",
-            choices: ["View All Departments", "View All Roles", "View All Employees", "Add Department", "Add Role", "Add Employee", "Exit Program"]
+            choices: [DisplayDepartments, DisplayRoles, DisplayEmployees, AddDepartment, AddRole, AddEmployee, EndProgram]
         }
     ]
-// have the quit be the default base case of the switch statements 
 
 function init(){
     // asks main prompts continuously
     inquirer.prompt(questions).then((response) => {
-        switch (response.action) {
+        switch (response.selection1) {
             case DisplayDepartments:
                 displayDepartments(response)
             break;
@@ -67,31 +66,22 @@ function init(){
                 exitProgram()
                 break;
         }
-        // add switch statement, running specififc functions on user input 
-        // displayDepartments(response)
-        // displayRoles(response)
-        // displayEmployees(response)
-        // addNewDepartment()
-        // addNewRole()
-        // addNewEmployee()
-        // exitProgram()
-        // console.log({response})
     })
 }
 
 
 function displayDepartments(arg1) {
     const tableName = 'department_agg'
-    if(arg1.selection1 === DisplayDepartments) {
+    // if(arg1.selection1 === DisplayDepartments) {
         pool.query(`SELECT * FROM ${tableName}`, (err, {rows}) => {
             if (err) {
                 console.error(err)
             }
             console.table(rows)
-            // init()
+            init()
         })
     }
-}
+// }
 
 function displayRoles(arg1) {
     const tableName = 'role_agg'
@@ -101,7 +91,7 @@ function displayRoles(arg1) {
                 console.error(err)
             } 
             console.table(rows)
-            // init()
+            init()
         })
     }
 }
@@ -114,7 +104,7 @@ function displayEmployees(arg1) {
                 console.error(err)
             }
             console.table(rows)
-            // init()
+            init()
         })
     }
 }
@@ -133,7 +123,7 @@ function displayEmployees(arg1) {
         pool.query(`INSERT INTO ${tableName} (name) VALUES ('${addedDepartment}')`)
         .then(() => {
             console.log("Department added!")
-            // init()
+            init()
         })
         })
     }
@@ -141,6 +131,9 @@ function displayEmployees(arg1) {
 
 function addNewRole(){
     const tableName = 'role_agg'
+    pool.query(`SELECT id AS value, name FROM department_agg`)
+    .then(({rows}) => {
+        console.log(rows)
     const question = [
         {
             message: "What is the name of the role you want to add?",
@@ -152,18 +145,23 @@ function addNewRole(){
         },
         {
             message: "What is the department of the role you want to add?",
-            name: "addedRoleDepartment"
+            name: "addedRoleDepartment",
+            type: "list",
+            choices: rows
+            
         }
     ]
     inquirer.prompt(question)
-    .then(({addedRole}) => {
-        pool.query(`INSERT INTO ${tableName} (title, salary, department) VALUES ('${addedRole}, ')`)
+    .then(({addedRole, addedSalary, addedRoleDepartment}) => {
+        pool.query(`INSERT INTO ${tableName} (title, salary, department) VALUES ($1, $2, $3)`, [addedRole, addedSalary, addedRoleDepartment])
     })
     .then(() => {
         console.log("Role Added!")
-        // init()
+        init()
     })
+})
 }
+
 
 function addNewEmployee(){
     const tableName = 'employee_agg' 
@@ -188,16 +186,14 @@ function addNewEmployee(){
     })
     .then(() => {
         console.log("Employee Added!")
-        // init()
+        init()
     })
     }
 
 // Debug this
 function exitProgram(arg1) {
-    if(arg1 === quitProgram) {
-        exit(0)
-        // process.exit("Program Exited", 0)
-    }
+    process.exit(0)
+    
 }
 
 init()
