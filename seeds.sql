@@ -25,3 +25,5 @@ VALUES
 ('Malia', 'Brown', 6),
 ('Sarah', 'Lourd', 7),
 ('Tom', 'Allen', 8);
+
+-- , job_title, salary

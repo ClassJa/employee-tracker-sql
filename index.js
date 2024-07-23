@@ -1,4 +1,5 @@
 const inquirer = require('inquirer')
+const { type } = require('os')
 // const pg = require("postgres")
 const { Pool } = require('pg') 
 const { exit } = require('process')
@@ -38,10 +39,10 @@ function init(){
         displayDepartments(response)
         displayRoles(response)
         displayEmployees(response)
-        addDepartment()
-        addRole()
-        addEmployee()
-        quitProgram()
+        // addDepartment()
+        // addRole()
+        // addEmployee()
+        // quitProgram()
         console.log(response)
     })
 }
@@ -89,9 +90,23 @@ function displayEmployees(arg1) {
 function addDepartment(arg1){
     const tableName = 'department_agg'
     if(arg1.selection1 === "Add Department") {
-        pool.query(`INSERT INTO ${tableName}`, (err) => {
+        inquirer.prompt([
+            {
+            message: "What is the name of the department you want to add?",
+            name: "addedDepartment",
+            type: "input"
+        }
+    ]).then(
 
-        })
+        // Debug why the prompt is being invoked
+        pool.query(`INSERT INTO ${tableName} (name) VALUES (${response})`, (err, row) => {
+            if(err){
+                console.error(err)
+            } else {
+                console.log("Department added!")
+            }
+            
+        }))
     }
 }
 
@@ -114,6 +129,7 @@ function addEmployee(arg1){
     }
 }
 
+// Debug this
 function quitProgram(arg1) {
     if(arg1.selection1 === "Exit Program") {
         exit(0)
