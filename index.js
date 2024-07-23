@@ -34,7 +34,9 @@ function init(){
     inquirer.prompt(questions).then((response) => {
         // add switch statement, running specififc functions on user input 
         displayDepartments(response)
-console.log(response)
+        displayRoles(response)
+        displayEmployees(response)
+        console.log(response)
     })
 
 }
@@ -45,7 +47,6 @@ function displayDepartments(arg1) {
     const tableName = 'department_agg'
     if(arg1.selection1 === "View All Departments") {
         pool.query(`SELECT * FROM ${tableName}`, (err, {rows}) => {
-            console.log(rows)
             if (err) {
                 console.error(err)
             }
@@ -60,5 +61,27 @@ function displayDepartments(arg1) {
 
 function displayRoles(arg1) {
     const tableName = 'role_agg'
-    if(arg1.selection1 === "View All Roles")
+    if(arg1.selection1 === "View All Roles") {
+        pool.query(`SELECT * FROM ${tableName}`, (err, {rows}) => {
+            if(err) {
+                console.error(err)
+            } 
+            console.table(rows)
+            init()
+        })
+    }
+}
+
+function displayEmployees(arg1) {
+    const tableName = 'employee_agg'
+    if(arg1.selection1 === "View All Employees") {
+        pool.query(`SELECT * FROM ${tableName}`, (err, {rows}) => {
+            if(err) {
+                console.error(err)
+            }
+            console.table(rows)
+            init()
+        })
+    }
+
 }
