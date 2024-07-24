@@ -23,12 +23,13 @@ CREATE TABLE employee_agg (
     first_name VARCHAR(30) NOT NULL,
     last_name VARCHAR(30) NOT NULL,
     role_id INTEGER NOT NULL,
+    title VARCHAR(30) NOT NULL,
+    salary DECIMAL NOT NULL,
     manager_id INTEGER DEFAULT NULL,
-    -- Is this correct?
     FOREIGN KEY (role_id)
     REFERENCES role_agg(id)
     ON DELETE SET NULL,
     FOREIGN KEY (manager_id)
-    REFERENCES employee_agg(id)
+    REFERENCES role_agg(id)
     ON DELETE SET NULL
 );

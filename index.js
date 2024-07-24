@@ -3,9 +3,6 @@ const { type } = require('os')
 const { Pool } = require('pg') 
 const { exit } = require('process')
 
-
-
-
 const pool = new Pool(
     {
         user: '',
@@ -15,7 +12,6 @@ const pool = new Pool(
     },
     console.log("Connected to the departments_db database: ")
 )
-
 
 
 pool.connect()
@@ -180,11 +176,23 @@ function addNewEmployee(){
         {
             message: "What is the role id of the employee you want to add?",
             name: "roleId"
+        },
+        {
+            message: "What is the title of the role for the employee you want to add?",
+            name: "title"
+        },
+        {
+            message: "What is the salary of the employee you want to add?",
+            name: "salary"
+        },
+        {
+            message: "Who is the manager of the employee you want to add?",
+            name: "managerId"
         }
     ]
     inquirer.prompt(question)
-    .then(({firstName, lastName, roleId}) => {
-        pool.query(`INSERT INTO ${tableName} (first_name, last_name, role_id) VALUES ($1, $2, $3)`, [firstName, lastName, roleId])
+    .then(({firstName, lastName, roleId, title, salary, managerId}) => {
+        pool.query(`INSERT INTO ${tableName} (first_name, last_name, role_id, title, salary, manager_id) VALUES ($1, $2, $3, $4, $5, $6)`, [firstName, lastName, roleId, title, salary, managerId])
     })
     .then(() => {
         console.log("Employee Added!")
