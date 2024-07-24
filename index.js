@@ -1,10 +1,8 @@
 const inquirer = require('inquirer')
 const { type } = require('os')
-// const pg = require("postgres")
 const { Pool } = require('pg') 
 const { exit } = require('process')
-// const pool = require('./config')
-// const tables = require('')
+
 
 
 
@@ -16,7 +14,6 @@ const pool = new Pool(
         database: 'departments_db'
     },
     console.log("Connected to the departments_db database: ")
-    // , pool.database
 )
 
 
@@ -30,13 +27,14 @@ const AddDepartment = "Add Department"
 const AddRole = "Add Role"
 const AddEmployee = "Add Employee"
 const EndProgram =  "Exit Program"
+const UpdateEmployee = "Update Employee Information"
 
 const questions = [
         {
             message: "What would you like to do?",
             type: "list",
             name: "selection1",
-            choices: [DisplayDepartments, DisplayRoles, DisplayEmployees, AddDepartment, AddRole, AddEmployee, EndProgram]
+            choices: [DisplayDepartments, DisplayRoles, DisplayEmployees, AddDepartment, AddRole, AddEmployee, UpdateEmployee, EndProgram]
         }
     ]
 
@@ -62,6 +60,9 @@ function init(){
             case AddEmployee:
                 addNewEmployee()
             break;
+            case UpdateEmployee:
+                updateEmployeeInfo()
+                break;
             case EndProgram:
                 exitProgram()
                 break;
@@ -164,7 +165,9 @@ function addNewRole(){
 
 function addNewEmployee(){
     const tableName = 'employee_agg' 
-    
+    pool.query(`SELECT name AS value, id FROM department_agg`)
+    .then(({rows}) => {
+    console.log(rows)
     const question = [
         {
             message: "What is the first name of the employee you want to add?",
@@ -188,6 +191,51 @@ function addNewEmployee(){
         init()
     })
     }
+)}
+
+    function updateEmployeeInfo(){
+        pool.query(`SELECT first_name, last_name, id FROM employee_agg`)
+        .then(({rows}) => {
+            const employeeList = rows.map(({first_name, last_name, id})  => ({
+                name: `${first_name} ${last_name}`,
+                value: id
+            }))
+        const questions = [
+            {
+                message: "Which employee would you like to update the role for?",
+                name: "updateEmployee", 
+                type: "list", 
+                choices: employeeList,
+            }
+        ]
+        inquirer.prompt(questions)
+        .then((employee) => {
+            pool.query(`SELECT * FROM role_agg`)
+            .then(({rows}) => {
+                const rolesList = rows.map(({title, id})  => ({
+                    name: title,
+                    value: id
+                }))
+            const roleChange = [
+                {
+                    message: "What role would you like to change this employee to?",
+                    name: "updatedRole", 
+                    type: "list", 
+                    choices: rolesList,
+                }
+            ]
+            inquirer.prompt(roleChange)
+            .then((roleIdChange) => {
+                pool.query(`UPDATE employee_agg SET role_id = $2 WHERE id = $1`, [roleIdChange.updatedRole, employee.updateEmployee])
+                console.log("Employee information updated")
+                init()
+            })
+        })
+        return employee
+    })
+})
+}
+
 
 function exitProgram() {
     process.exit(0)
