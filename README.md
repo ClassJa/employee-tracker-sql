@@ -1,7 +1,7 @@
 # employee-tracker-sql
 
 ## Description 
-This project utilizes javascript and tools like node.js, postgreSQL, and inquirer, to create and display a compilation of data tables that include information about employees at a specific organization. The tables in the database are customizable based on the user's selections.
+This project utilizes javascript and tools like node.js, postgreSQL, and inquirer, to create and display a compilation of data tables that include information about employees at a specific organization. The tables in the database are customizable based on the user's selections. With the ability to create a department, a role, an employee, as well as teh ability to view all created departments, roles, and employees and information about each of these cataegories. 
 
 ## Usage
 
