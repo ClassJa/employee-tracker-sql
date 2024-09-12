@@ -186,7 +186,7 @@ function addNewEmployee(){
             name: "salary"
         },
         {
-            message: "Who is the manager of the employee you want to add?",
+            message: "What is the manager id of the employee you want to add?",
             name: "managerId"
         }
     ]
